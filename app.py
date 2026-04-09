@@ -6,7 +6,9 @@ import os
 import numpy as np
 
 app = FastAPI(title="Smart Crop Recommendation API")
-
+@app.get("/")
+def home():
+    return {"message": "Backend is running"}
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -93,10 +95,6 @@ def dynamic_crop_care(crop, N, P, K, temperature, rainfall):
     care = weather_care(temperature, rainfall)
     return deficiencies, fertilizers, care
 
-@app.get("/")
-def root():
-    return {"message": "API running"}
-
 @app.post("/predict")
 def predict_crop(data: CropInput):
     try:
@@ -159,4 +157,5 @@ def predict_crop(data: CropInput):
 import uvicorn
 
 if __name__ == "__main__":
-    uvicorn.run("app:app", host="0.0.0.0", port=8000)
+    port = int(os.environ.get("PORT", 10000))
+    uvicorn.run("app:app", host="0.0.0.0", port=port)
