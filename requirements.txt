@@ -5,3 +5,4 @@ joblib
 scikit-learn
 catboost
 pydantic
+scikit-learn==1.6.1
